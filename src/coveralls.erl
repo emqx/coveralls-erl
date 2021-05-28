@@ -115,7 +115,9 @@ send(Json, #s{poster=Poster, poster_init=Init}) ->
     200      ->
       rebar_log:log(debug, "Coveralls Response: ~p", [Message]),
       ok;
-    ErrCode  -> throw({error, {ErrCode, Message}})
+    ErrCode  ->
+      Params = maps:remove(source_files, jsx:decode(Json, [return_maps])),
+      throw({error, {ErrCode, Message, Params}})
   end.
 
 %%-----------------------------------------------------------------------------
