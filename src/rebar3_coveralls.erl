@@ -157,7 +157,7 @@ do_coveralls(ConvertAndSend, Get, GetLocal, MaybeSkip, Task) ->
   end.
 
 git_trim(Str) ->
-  re:replace(Str, "\\s+", "", [global, {return, binary}]).
+  binary:split(unicode:characters_to_binary(Str),[<<"\n">>],[global]).
 
 collect_git_info(Report) ->
   case rebar_utils:sh("git rev-parse --verify HEAD", [return_on_error]) of
