@@ -1,6 +1,6 @@
 coveralls-erl
 =============
-[![Build Status](https://travis-ci.org/markusn/coveralls-erl.png?branch=master)](https://travis-ci.org/markusn/coveralls-erl)
+[![Build status](https://github.com/emqx/coveralls-erl/actions/workflows/main.yml/badge.svg)](https://github.com/emqx/coveralls-erl/actions/workflows/main.yml)
 [![Coverage Status](https://coveralls.io/repos/markusn/coveralls-erl/badge.png?branch=master)](https://coveralls.io/r/markusn/coveralls-erl?branch=master)
 [![Hex.pm](https://img.shields.io/hexpm/v/coveralls.svg?style=flat)](https://hex.pm/packages/coveralls)
 
