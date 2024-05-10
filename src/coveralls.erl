@@ -72,7 +72,7 @@
 %%      representation suitable to post to coveralls.
 %%
 %%      Note that this function will crash if the modules mentioned in
-%%      any of the `Filenames' are not availabe on the node.
+%%      any of the `Filenames' are not available on the node.
 %% @end
 -spec convert_file(string() | [string()], map()) ->
                           string().
@@ -110,9 +110,11 @@ send(Json, #s{poster=Poster, poster_init=Init}) ->
   Type     = "multipart/form-data; boundary=" ++ Boundary,
   Body     = to_body(Json, Boundary),
   R        = Poster(post, {?COVERALLS_URL, [], Type, Body}, [], []),
+  io:format("coveralls returns: ~p~n", [R]),
   {ok, {{_, ReturnCode, _}, _, Message}} = R,
   case ReturnCode of
-    200      -> ok;
+    200      ->
+      ok;
     ErrCode  -> throw({error, {ErrCode, Message}})
   end.
 
