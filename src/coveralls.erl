@@ -104,7 +104,10 @@ convert_file([[_|_]|_]=Filenames, Report, S) ->
 convert_and_send_file(Filenames, Report, S) ->
   send(convert_file(Filenames, Report, S), S).
 
-send(Json, #s{poster=Poster, poster_init=Init}) ->
+send(Json, S) ->
+  send(Json, S, _AttemptsLeft = 5).
+
+send(Json, #s{poster=Poster, poster_init=Init} = S, AttemptsLeft) ->
   ok       = Init(),
   Boundary = ["----------", integer_to_list(?random:uniform(1000))],
   Type     = "multipart/form-data; boundary=" ++ Boundary,
@@ -115,6 +118,11 @@ send(Json, #s{poster=Poster, poster_init=Init}) ->
   case ReturnCode of
     200      ->
       ok;
+    502 ->
+      case AttemptsLeft > 0 of
+        true -> timer:sleep(1_000), send(Json, S, AttemptsLeft - 1);
+        false -> throw({error, {ReturnCode, Message}})
+      end;
     ErrCode  -> throw({error, {ErrCode, Message}})
   end.
 
