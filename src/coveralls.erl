@@ -118,7 +118,7 @@ send(Json, #s{poster=Poster, poster_init=Init} = S, AttemptsLeft) ->
   case ReturnCode of
     200      ->
       ok;
-    502 ->
+    _ when ReturnCode == 502; ReturnCode == 520 ->
       case AttemptsLeft > 0 of
         true -> timer:sleep(1_000), send(Json, S, AttemptsLeft - 1);
         false -> throw({error, {ReturnCode, Message}})
